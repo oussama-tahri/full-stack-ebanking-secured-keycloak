@@ -7,6 +7,8 @@ import com.tahrioussama.walletservice.repositories.WalletRepository;
 import com.tahrioussama.walletservice.repositories.WalletTransactionRepository;
 import com.tahrioussama.walletservice.services.CurrencyServiceImpl;
 import com.tahrioussama.walletservice.services.WalletServiceImpl;
+import org.keycloak.adapters.springsecurity.client.KeycloakClientRequestFactory;
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,10 +25,23 @@ public class WalletServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WalletServiceApplication.class, args);
 	}
-	@Bean
+
+	// To communicate with the other microservice we use RestTemplate
+	/* @Bean
 	RestTemplate restTemplate(){
 		return new RestTemplate();
+	} */
+
+	// Now we have our microservices secured, se to have a communication between'm we need the access_token
+	// Keycloak have the solution within this method
+	// Before using this method we need to inject KeycloakSecurityComponents.class in our securityConfig class
+	// Like this : @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
+	@Bean
+	KeycloakRestTemplate keycloakRestTemplate(KeycloakClientRequestFactory keycloakClientRequestFactory) {
+		return new KeycloakRestTemplate(keycloakClientRequestFactory);
 	}
+
+
 	@Bean
 	CommandLineRunner start(CurrencyServiceImpl currencyService,
 							WalletServiceImpl walletService,

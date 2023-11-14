@@ -10,6 +10,7 @@ import com.tahrioussama.walletservice.repositories.CurrencyRepository;
 import com.tahrioussama.walletservice.repositories.WalletRepository;
 import com.tahrioussama.walletservice.repositories.WalletTransactionRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +31,7 @@ public class WalletServiceImpl {
     private final WalletTransactionRepository walletTransactionRepository;
     private final CurrencyRepository currencyRepository;
     @Autowired
-    private RestTemplate restTemplate;
+    private KeycloakRestTemplate restTemplate;
 
     public WalletServiceImpl(WalletRepository walletRepository, WalletTransactionRepository walletTransactionRepository, CurrencyRepository currencyRepository) {
         this.walletRepository = walletRepository;
